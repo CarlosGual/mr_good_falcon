@@ -3,7 +3,7 @@
 defaults:
   - /benchmark/nav/socialnav_v2: falcon_hm3d_task_for_train
   - /habitat_baselines: habitat_baselines_rl_config_base
-  - /habitat/simulator/sim_sensors@habitat_baselines.eval.extra_sim_sensors.third_rgb_sensor: third_rgb_sensor 
+  - /habitat/simulator/sim_sensors@habitat_baselines.eval.extra_sim_sensors.third_rgb_sensor: third_rgb_sensor
   - /habitat_baselines/rl/policy@habitat_baselines.rl.policy.agent_1: single_fixed
   - /habitat_baselines/rl/policy@habitat_baselines.rl.policy.agent_2: single_fixed
   - /habitat_baselines/rl/policy@habitat_baselines.rl.policy.agent_3: single_fixed
@@ -14,12 +14,12 @@ defaults:
   - /habitat/task/actions@habitat.task.actions.agent_0_discrete_move_forward: discrete_move_forward
   - /habitat/task/actions@habitat.task.actions.agent_0_discrete_turn_left: discrete_turn_left
   - /habitat/task/actions@habitat.task.actions.agent_0_discrete_turn_right: discrete_turn_right
-  - /habitat/task/actions@habitat.task.actions.agent_1_oracle_nav_randcoord_action_obstacle: oracle_nav_action 
-  - /habitat/task/actions@habitat.task.actions.agent_2_oracle_nav_randcoord_action_obstacle: oracle_nav_action 
-  - /habitat/task/actions@habitat.task.actions.agent_3_oracle_nav_randcoord_action_obstacle: oracle_nav_action 
-  - /habitat/task/actions@habitat.task.actions.agent_4_oracle_nav_randcoord_action_obstacle: oracle_nav_action 
-  - /habitat/task/actions@habitat.task.actions.agent_5_oracle_nav_randcoord_action_obstacle: oracle_nav_action 
-  - /habitat/task/actions@habitat.task.actions.agent_6_oracle_nav_randcoord_action_obstacle: oracle_nav_action 
+  - /habitat/task/actions@habitat.task.actions.agent_1_oracle_nav_randcoord_action_obstacle: oracle_nav_action
+  - /habitat/task/actions@habitat.task.actions.agent_2_oracle_nav_randcoord_action_obstacle: oracle_nav_action
+  - /habitat/task/actions@habitat.task.actions.agent_3_oracle_nav_randcoord_action_obstacle: oracle_nav_action
+  - /habitat/task/actions@habitat.task.actions.agent_4_oracle_nav_randcoord_action_obstacle: oracle_nav_action
+  - /habitat/task/actions@habitat.task.actions.agent_5_oracle_nav_randcoord_action_obstacle: oracle_nav_action
+  - /habitat/task/actions@habitat.task.actions.agent_6_oracle_nav_randcoord_action_obstacle: oracle_nav_action
   - /habitat/task/lab_sensors@habitat.task.lab_sensors.agent_0_pointgoal_with_gps_compass: pointgoal_with_gps_compass_sensor
   - _self_
 
@@ -27,17 +27,17 @@ habitat:
   dataset:
     split: train
   gym:
-    obs_keys: 
-      # - agent_0_articulated_agent_jaw_rgb # use it if add RGB camera
+    obs_keys:
+      - agent_0_articulated_agent_jaw_rgb # use it if add RGB camera
       - agent_0_articulated_agent_jaw_depth
       - agent_0_pointgoal_with_gps_compass
       - agent_0_localization_sensor
-      - agent_0_human_num_sensor  
+      - agent_0_human_num_sensor
       - agent_0_oracle_humanoid_future_trajectory
   task:
     actions:
       agent_0_discrete_stop:
-        lin_speed: 0.0 
+        lin_speed: 0.0
         ang_speed: 0.0
       agent_0_discrete_move_forward:
         lin_speed: 25.0
@@ -52,37 +52,37 @@ habitat:
         ang_speed: -10.0
         allow_dyn_slide: True
       agent_1_oracle_nav_randcoord_action_obstacle:
-        type: OracleNavRandCoordAction_Obstacle 
+        type: OracleNavRandCoordAction_Obstacle
         motion_control: human_joints
         lin_speed: 10.0
         ang_speed: 10.0
         allow_dyn_slide: True
       agent_2_oracle_nav_randcoord_action_obstacle:
-        type: OracleNavRandCoordAction_Obstacle 
+        type: OracleNavRandCoordAction_Obstacle
         motion_control: human_joints
         lin_speed: 10.0
         ang_speed: 10.0
         allow_dyn_slide: True
       agent_3_oracle_nav_randcoord_action_obstacle:
-        type: OracleNavRandCoordAction_Obstacle 
+        type: OracleNavRandCoordAction_Obstacle
         motion_control: human_joints
         lin_speed: 10.0
         ang_speed: 10.0
         allow_dyn_slide: True
       agent_4_oracle_nav_randcoord_action_obstacle:
-        type: OracleNavRandCoordAction_Obstacle 
+        type: OracleNavRandCoordAction_Obstacle
         motion_control: human_joints
         lin_speed: 10.0
         ang_speed: 10.0
         allow_dyn_slide: True
       agent_5_oracle_nav_randcoord_action_obstacle:
-        type: OracleNavRandCoordAction_Obstacle 
+        type: OracleNavRandCoordAction_Obstacle
         motion_control: human_joints
         lin_speed: 10.0
         ang_speed: 10.0
         allow_dyn_slide: True
       agent_6_oracle_nav_randcoord_action_obstacle:
-        type: OracleNavRandCoordAction_Obstacle 
+        type: OracleNavRandCoordAction_Obstacle
         motion_control: human_joints
         lin_speed: 10.0
         ang_speed: 10.0
@@ -95,7 +95,7 @@ habitat_baselines:
   tensorboard_dir: "evaluation/falcon/hm3d/tb"
   video_dir: "evaluation/falcon/hm3d/video"
   test_episode_count: -1
-  num_environments: 8
+  num_environments: 2
   checkpoint_folder: "evaluation/falcon/hm3d/checkpoints" # save_dir for training
   num_updates: -1
   total_num_steps: 15000000 # exact steps 12560368
@@ -110,7 +110,7 @@ habitat_baselines:
     _target_: habitat_baselines.rl.ppo.falcon_evaluator.FALCONEvaluator
 
   eval:
-    use_ckpt_config: False 
+    use_ckpt_config: False
     should_load_ckpt: True
 
   rl:
@@ -119,7 +119,7 @@ habitat_baselines:
       num_agent_types: 7
       num_active_agents_per_type: [1, 1, 1, 1, 1, 1, 1]
       num_pool_agents_per_type: [1, 1, 1, 1, 1, 1, 1]
-      agent_sample_interval: 20 
+      agent_sample_interval: 20
       force_partner_sample_idx: -1
     policy:
       agent_0:
@@ -170,16 +170,21 @@ habitat_baselines:
       backbone: resnet50
       rnn_type: LSTM
       num_recurrent_layers: 2
-      
-    auxiliary_losses: 
+
+    auxiliary_losses:
       people_counting:
         max_human_num: 6
-        loss_scale: 0.1   
+        loss_scale: 0.1
       guess_human_position:
         max_human_num: 6
         position_dim: 2
-        loss_scale: 0.1   
+        loss_scale: 0.1
       future_trajectory_prediction:
         max_human_num: 6
         future_step: 4
-        loss_scale: 0.1       
+        loss_scale: 0.1
+  writer_type: "wb"
+  wb:
+    project_name: "socialnav"
+    entity: "gram-uah"
+    run_name: "pruebas_rgbd"
