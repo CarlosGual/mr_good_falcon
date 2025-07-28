@@ -329,9 +329,43 @@ class NetPolicy(nn.Module, Policy):
         masks,
         deterministic=False,
     ):
-        features, rnn_hidden_states, _ = self.net(
+        features, rnn_hidden_states, aux_loss_state = self.net(
             observations, rnn_hidden_states, prev_actions, masks
         )
+
+        # Create batch for auxiliary tasks
+        batch = dict(
+            observations=observations,
+            rnn_hidden_states=rnn_hidden_states,
+            prev_actions=prev_actions,
+            masks=masks,
+        )
+
+        # Compute auxiliary task outputs
+        aux_outputs = {}
+        for name, module in self.aux_loss_modules.items():
+            aux_output = module(aux_loss_state, batch)
+            if isinstance(aux_output, dict) and "features" in aux_output:
+                aux_outputs[name] = aux_output["features"]
+
+        # Combine auxiliary task outputs with features if available
+        if aux_outputs:
+            # Concatenate all auxiliary features with the main features
+            aux_features = [features]
+            for name, aux_feature in aux_outputs.items():
+                if aux_feature is not None and aux_feature.size(0) == features.size(0):
+                    aux_features.append(aux_feature)
+
+            if len(aux_features) > 1:
+                # Concatenate all features
+                combined_features = torch.cat(aux_features, dim=1)
+                # Project back to original feature dimension if needed
+                if not hasattr(self, "aux_projection"):
+                    self.aux_projection = nn.Linear(
+                        combined_features.size(1), features.size(1)
+                    ).to(features.device)
+                features = self.aux_projection(combined_features)
+
         distribution = self.action_distribution(features)
         value = self.critic(features)
 
@@ -374,12 +408,8 @@ class NetPolicy(nn.Module, Policy):
             masks,
             rnn_build_seq_info,
         )
-        distribution = self.action_distribution(features)
-        value = self.critic(features)
 
-        action_log_probs = distribution.log_probs(action)
-        distribution_entropy = distribution.entropy()
-
+        # Create batch for auxiliary tasks
         batch = dict(
             observations=observations,
             rnn_hidden_states=rnn_hidden_states,
@@ -388,10 +418,39 @@ class NetPolicy(nn.Module, Policy):
             action=action,
             rnn_build_seq_info=rnn_build_seq_info,
         )
-        aux_loss_res = {
-            k: v(aux_loss_state, batch)
-            for k, v in self.aux_loss_modules.items()
-        }
+
+        # Compute auxiliary task outputs
+        aux_outputs = {}
+        aux_loss_res = {}
+        for name, module in self.aux_loss_modules.items():
+            aux_output = module(aux_loss_state, batch)
+            aux_loss_res[name] = aux_output
+            if isinstance(aux_output, dict) and "features" in aux_output:
+                aux_outputs[name] = aux_output["features"]
+
+        # Combine auxiliary task outputs with features if available
+        if aux_outputs:
+            # Concatenate all auxiliary features with the main features
+            aux_features = [features]
+            for name, aux_feature in aux_outputs.items():
+                if aux_feature is not None and aux_feature.size(0) == features.size(0):
+                    aux_features.append(aux_feature)
+
+            if len(aux_features) > 1:
+                # Concatenate all features
+                combined_features = torch.cat(aux_features, dim=1)
+                # Project back to original feature dimension if needed
+                if not hasattr(self, "aux_projection"):
+                    self.aux_projection = nn.Linear(
+                        combined_features.size(1), features.size(1)
+                    ).to(features.device)
+                features = self.aux_projection(combined_features)
+
+        distribution = self.action_distribution(features)
+        value = self.critic(features)
+
+        action_log_probs = distribution.log_probs(action)
+        distribution_entropy = distribution.entropy()
 
         return (
             value,

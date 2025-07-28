@@ -95,7 +95,7 @@ habitat_baselines:
   tensorboard_dir: "evaluation/falcon/hm3d/tb"
   video_dir: "evaluation/falcon/hm3d/video"
   test_episode_count: -1
-  num_environments: 8
+  num_environments: 2
   checkpoint_folder: "evaluation/falcon/hm3d/checkpoints" # save_dir for training
   num_updates: -1
   total_num_steps: 15000000 # exact steps 12560368
