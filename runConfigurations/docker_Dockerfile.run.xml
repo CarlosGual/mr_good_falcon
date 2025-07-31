@@ -3,7 +3,7 @@
     <deployment type="dockerfile">
       <settings>
         <option name="imageTag" value="mr_falcon" />
-        <option name="containerName" value="prueba_train_falcon" />
+        <option name="containerName" value="train_falcon" />
         <option name="envVars">
           <list>
             <DockerEnvVarImpl>

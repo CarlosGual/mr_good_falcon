@@ -444,7 +444,7 @@ class NetPolicy(nn.Module, Policy):
                     self.aux_projection = nn.Linear(
                         combined_features.size(1), features.size(1)
                     ).to(features.device)
-                features = self.aux_projection(combined_features)
+                features = self.aux_projection(combined_features.clone())
 
         distribution = self.action_distribution(features)
         value = self.critic(features)
