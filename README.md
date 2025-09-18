@@ -1,12 +1,12 @@
-RoboSense 2025 – Social Navigation (Track 2)
-:sparkles: Overview
+ <h1>RoboSense 2025 – Social Navigation (Track 2)
+##:sparkles: Overview
 
 This repository is based on Falcon
 , a reinforcement learning framework for socially-aware navigation.
 
 Our main modification is the addition of an RGB camera to the original depth-only setup, aiming to enrich perception and improve navigation performance in crowded environments.
 
-:hammer_and_wrench: Requirements
+##:hammer_and_wrench: Requirements
 
 To reproduce our results, you will need:
 
