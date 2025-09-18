@@ -48,10 +48,10 @@ python -u -m habitat-baselines.habitat_baselines.run \
 
 thon -u -m habitat-baselines.habitat_baselines.run \
 --config-name=social_nav_v2/falcon_rgbd_hm3d.yaml
+```bash
 
 (Optional) Add the following argument to save videos:
 
-Copy code
 habitat_baselines.eval.video_option=["disk"]
 
 ## :rocket: Training
