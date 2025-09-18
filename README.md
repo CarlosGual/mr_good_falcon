@@ -48,9 +48,9 @@ python -u -m habitat-baselines.habitat_baselines.run \
 
 thon -u -m habitat-baselines.habitat_baselines.run \
 --config-name=social_nav_v2/falcon_rgbd_hm3d.yaml
-```bash
+```
 
-(Optional) Add the following argument to save videos:
+### (Optional) Add the following argument to save videos:
 
 habitat_baselines.eval.video_option=["disk"]
 
@@ -60,7 +60,6 @@ To retrain the agent with the RGB-D setup:
 
 python -u -m habitat-baselines.habitat_baselines.run \
 --config-name=social_nav_v2/falcon_rgbd_hm3d_train.yaml
-
 
 Training follows the same pipeline as the original Falcon, with sensor configs adapted for RGB-D.
 
