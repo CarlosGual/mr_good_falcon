@@ -1,43 +1,70 @@
- <h1>RoboSense 2025 – Social Navigation (Track 2)
-##:sparkles: Overview
+ <div align="center">
+  <h1>RoboSense 2025 – Social Navigation (Track 2)</h1>
+  <h3>
+    Team Contribution: Adding RGB to Depth-only Setup (RGB-D)
+  </h3>
 
-This repository is based on Falcon
-, a reinforcement learning framework for socially-aware navigation.
+  <p>
+    <a href="https://github.com/Zeying-Gong/Falcon">Base Project (Falcon)</a> |
+    <a href="https://github.com/facebookresearch/habitat-sim">Habitat-Sim</a> |
+    <a href="https://github.com/facebookresearch/habitat-lab">Habitat-Lab</a>
+  </p>
 
-Our main modification is the addition of an RGB camera to the original depth-only setup, aiming to enrich perception and improve navigation performance in crowded environments.
+  <!-- Badges -->
+  <p>
+    <img src="https://img.shields.io/badge/Framework-Falcon-green.svg" alt="Falcon Framework Badge">
+    <img src="https://img.shields.io/badge/Simulator-HabitatSim-blue.svg" alt="HabitatSim Badge">
+    <img src="https://img.shields.io/badge/Datasets-SocialHM3D%20|%20SocialMP3D-orange.svg" alt="Datasets Badge">
+  </p>
+</div>
 
-##:hammer_and_wrench: Requirements
 
-To reproduce our results, you will need:
+## :sparkles: Overview
 
-Habitat-Sim
- (v0.3.1 with Bullet and headless support)
+This repository is based on **Falcon**, a reinforcement learning framework for socially-aware navigation.  
+Our main modification is the addition of an **RGB camera** to the original depth-only setup, creating an **RGB-D sensor configuration**.  
+This aims to enrich perception and improve navigation performance in crowded environments.  
 
-Habitat-Lab
+---
 
-The Social-HM3D and Social-MP3D datasets provided by the organizers
+## :hammer_and_wrench: Requirements
 
-:arrow_forward: Evaluation
+- [Habitat-Sim](https://github.com/facebookresearch/habitat-sim) (v0.3.1 with Bullet & headless support)  
+- [Habitat-Lab](https://github.com/facebookresearch/habitat-lab)  
+- **Social-HM3D** and **Social-MP3D** datasets (as provided by the organizers)  
+- Pretrained weights (if required by the config, placed in the root directory)  
 
-After installing dependencies and downloading the datasets, you can evaluate the model with:
+---
 
+## :arrow_forward: Evaluation
+
+Run evaluation with the RGB-D configuration:  
+
+```bash
 python -u -m habitat-baselines.habitat_baselines.run \
 --config-name=social_nav_v2/falcon_rgbd_<dataset>.yaml
 
+## Example (Social-HM3D):
 
-Example for Social-HM3D:
-
-python -u -m habitat-baselines.habitat_baselines.run \
+thon -u -m habitat-baselines.habitat_baselines.run \
 --config-name=social_nav_v2/falcon_rgbd_hm3d.yaml
 
-:rocket: Training
+(Optional) Add the following argument to save videos:
 
-To retrain the agent with the added RGB camera:
+Copy code
+habitat_baselines.eval.video_option=["disk"]
+
+## :rocket: Training
+
+To retrain the agent with the RGB-D setup:
 
 python -u -m habitat-baselines.habitat_baselines.run \
 --config-name=social_nav_v2/falcon_rgbd_hm3d_train.yaml
 
-:pray: Acknowledgments
+
+Training follows the same pipeline as the original Falcon, with sensor configs adapted for RGB-D.
+
+## :pray: Acknowledgments
 
 This work builds upon the original Falcon repository:
 https://github.com/Zeying-Gong/Falcon
